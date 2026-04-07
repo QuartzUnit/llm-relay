@@ -1,0 +1,68 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "llm-relay"
+version = "0.1.0"
+description = "Unified LLM usage management — API proxy, session diagnostics, multi-CLI orchestration. multi-CLI open-network DLC."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.9"
+authors = [{ name = "hmj", email = "hmj@quartzunit.com" }]
+keywords = [
+    "llm",
+    "proxy",
+    "diagnostics",
+    "orchestration",
+    "claude-code",
+    "gemini-cli",
+    "openai-codex",
+    "rate-limit",
+    "token-monitoring",
+    "session-health",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: System :: Monitoring",
+    "Topic :: Utilities",
+    "Typing :: Typed",
+]
+
+[project.optional-dependencies]
+proxy = ["httpx>=0.28", "uvicorn>=0.34", "starlette>=0.46"]
+cli = ["click>=8.0", "rich>=13.0"]
+all = ["httpx>=0.28", "uvicorn>=0.34", "starlette>=0.46", "click>=8.0", "rich>=13.0"]
+dev = ["pytest>=8.0", "ruff>=0.8", "click>=8.0", "rich>=13.0", "httpx>=0.28"]
+
+[project.scripts]
+llm-relay = "llm_relay.detect.__main__:main"
+
+[project.urls]
+Homepage = "https://github.com/ArkNill/llm-relay"
+Repository = "https://github.com/ArkNill/llm-relay"
+Issues = "https://github.com/ArkNill/llm-relay/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/llm_relay"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP"]
