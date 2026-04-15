@@ -4,14 +4,13 @@ from __future__ import annotations
 
 import argparse
 import sys
-from pathlib import Path
 
 from llm_relay.detect import __version__
 from llm_relay.detect.analyzer import analyze_all
+from llm_relay.detect.scanner import load_featureflags_config
 from llm_relay.formatters.json_fmt import JsonFormatter
 from llm_relay.formatters.plain import PlainFormatter
 from llm_relay.providers import CLAUDE_CODE, detect_providers, get_provider, list_provider_ids
-from llm_relay.detect.scanner import load_featureflags_config
 
 
 def _format_size(size_bytes: int) -> str:

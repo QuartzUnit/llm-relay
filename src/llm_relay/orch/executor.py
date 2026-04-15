@@ -150,7 +150,10 @@ def _build_codex_cmd(
     max_budget_usd: Optional[float] = None,
 ) -> List[str]:
     """Build Codex CLI headless command."""
-    cmd = [cli.binary_path, "exec", prompt, "--json", "--full-auto", "--skip-git-repo-check"]
+    cmd = [
+        cli.binary_path, "exec", prompt, "--json", "--full-auto",
+        "--skip-git-repo-check", "--sandbox", "workspace-write",
+    ]
     if model:
         cmd.extend(["--model", model])
     if working_dir:

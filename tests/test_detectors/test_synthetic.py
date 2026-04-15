@@ -6,9 +6,9 @@ from pathlib import Path
 
 from helpers import make_entry, write_session_file
 
-from llm_relay.detect.synthetic import SyntheticDetector
 from llm_relay.detect.models import Severity
 from llm_relay.detect.parser import parse_session
+from llm_relay.detect.synthetic import SyntheticDetector
 
 
 class TestSyntheticDetector:

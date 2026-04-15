@@ -3,10 +3,11 @@
 from __future__ import annotations
 
 import argparse
-import json
 import sys
 import time
 from datetime import datetime
+from pathlib import Path
+from typing import Optional
 
 from rich.console import Console
 from rich.table import Table
@@ -32,14 +33,14 @@ def cmd_serve(args):
     console.print(f"[bold green]llm-relay[/] starting on :{args.port}")
     console.print(f"  upstream: {args.upstream}")
     console.print(f"  warn ratio: <{args.warn_ratio}%")
-    console.print(f"  db: ~/.llm-relay/usage.db")
+    console.print("  db: ~/.llm-relay/usage.db")
     console.print()
     console.print("[dim]Set in Claude Code:[/]")
     console.print(f"  [bold]ANTHROPIC_BASE_URL=http://localhost:{args.port}[/]")
     console.print()
 
     uvicorn.run(
-        "llm_relay.proxy:app",
+        "llm_relay.proxy.proxy:app",
         host=args.host,
         port=args.port,
         log_level="warning",
@@ -217,10 +218,8 @@ def cmd_strategies(args):
     console.print(table)
 
 
-def _find_latest_session() -> "Path | None":
+def _find_latest_session() -> Optional[Path]:
     """Find the most recently modified session JSONL in ~/.claude/projects/."""
-    from pathlib import Path
-
     base = Path.home() / ".claude" / "projects"
     if not base.exists():
         return None
@@ -307,9 +306,9 @@ def cmd_guard(args):
     console = Console()
     console.print("[bold]llm-relay guard[/] — context monitor")
     console.print(f"  mode: {args.mode}")
-    console.print(f"  thresholds: 25% checkpoint / 55% gentle / 80% standard / 90% aggressive")
-    console.print(f"\n[dim]Guard runs automatically when proxy is started with LLM_RELAY_GUARD=1[/]")
-    console.print(f"[dim]Example: LLM_RELAY_GUARD=1 llm-relay serve[/]")
+    console.print("  thresholds: 25% checkpoint / 55% gentle / 80% standard / 90% aggressive")
+    console.print("\n[dim]Guard runs automatically when proxy is started with LLM_RELAY_GUARD=1[/]")
+    console.print("[dim]Example: LLM_RELAY_GUARD=1 llm-relay serve[/]")
 
     statuses = guard.get_all_status()
     if statuses:

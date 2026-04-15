@@ -7,9 +7,8 @@ mega blocks, and base64 images.
 
 from __future__ import annotations
 
-import json
 import hashlib
-import base64
+import json
 import re
 
 from llm_relay.strategies import Message, PruneAction, StrategyResult, strategy

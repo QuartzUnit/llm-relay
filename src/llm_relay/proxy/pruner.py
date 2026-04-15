@@ -1,7 +1,7 @@
 """Pruning orchestrator — compose strategies, execute pipeline, relink UUIDs.
 
 Usage:
-    from llm_relay.pruner import prune
+    from llm_relay.proxy.pruner import prune
 
     report = prune(messages, tier="standard")
     print(report)
@@ -14,7 +14,7 @@ import json
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from llm_relay.fileutil import FileSnapshot, advisory_lock, atomic_write
+from llm_relay.proxy.fileutil import FileSnapshot, advisory_lock, atomic_write
 from llm_relay.strategies import StrategyResult, compose_prescription
 
 
@@ -72,7 +72,8 @@ class PruneReport:
         lines = [
             f"Prune report (tier={self.tier})",
             f"  Messages: {self.messages_before} → {self.messages_after} (-{self.total_removed})",
-            f"  Size: {self.chars_before:,} → {self.chars_after:,} chars (-{self.chars_saved:,}, {self.savings_pct:.1f}%)",
+            f"  Size: {self.chars_before:,} → {self.chars_after:,} chars"
+            f" (-{self.chars_saved:,}, {self.savings_pct:.1f}%)",
             "",
         ]
         for sr in self.strategy_results:
@@ -222,7 +223,7 @@ def prune_session_file(
 
     # Load messages from JSONL
     messages: list[dict] = []
-    with open(path, "r", encoding="utf-8") as f:
+    with open(path, encoding="utf-8") as f:
         for line in f:
             line = line.strip()
             if not line:

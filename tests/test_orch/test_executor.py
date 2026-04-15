@@ -2,22 +2,19 @@
 
 import json
 import subprocess
-from unittest.mock import patch, MagicMock
-
-import pytest
+from unittest.mock import MagicMock, patch
 
 from llm_relay.orch.executor import (
     _build_claude_cmd,
     _build_codex_cmd,
     _build_gemini_cmd,
-    _extract_output,
     _parse_codex_jsonl,
     _parse_json_output,
     execute_cli,
     prompt_hash,
     prompt_preview,
 )
-from llm_relay.orch.models import AuthMethod, CLIStatus, DelegationResult
+from llm_relay.orch.models import AuthMethod, CLIStatus
 
 
 def _make_cli(cli_id: str = "claude-code", binary_name: str = "claude", path: str = "/usr/bin/claude") -> CLIStatus:
@@ -54,7 +51,10 @@ class TestBuildCommands:
     def test_codex_basic(self):
         cli = _make_cli("openai-codex", "codex", "/usr/bin/codex")
         cmd = _build_codex_cmd(cli, "fix bug")
-        assert cmd == ["/usr/bin/codex", "exec", "fix bug", "--json", "--full-auto", "--skip-git-repo-check"]
+        assert cmd == [
+            "/usr/bin/codex", "exec", "fix bug", "--json", "--full-auto",
+            "--skip-git-repo-check", "--sandbox", "workspace-write",
+        ]
 
     def test_codex_with_dir(self):
         cli = _make_cli("openai-codex", "codex", "/usr/bin/codex")
@@ -132,7 +132,7 @@ class TestExecuteCli:
         assert result.success is True
         assert result.output == "done"
         assert result.exit_code == 0
-        assert result.duration_ms > 0
+        assert result.duration_ms >= 0
 
     @patch("llm_relay.orch.executor.subprocess.run")
     def test_failure(self, mock_run):

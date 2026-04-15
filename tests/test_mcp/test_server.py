@@ -1,18 +1,25 @@
 """Tests for mcp/server.py — MCP tool functions (unit tests, no actual CLI calls)."""
 
 import json
-from unittest.mock import patch, MagicMock
-
-import pytest
+from unittest.mock import MagicMock, patch
 
 from llm_relay.orch.models import AuthMethod, CLIStatus, DelegationResult
 
 
 def _make_statuses():
     return [
-        CLIStatus("claude-code", "claude", "/usr/bin/claude", True, True, "ANTHROPIC_API_KEY", False, AuthMethod.CLI_OAUTH, "2.1.91"),
-        CLIStatus("openai-codex", "codex", "/usr/bin/codex", True, True, "OPENAI_API_KEY", False, AuthMethod.CLI_OAUTH, "0.118.0"),
-        CLIStatus("gemini-cli", "gemini", "/usr/bin/gemini", True, True, "GEMINI_API_KEY", False, AuthMethod.CLI_OAUTH, "0.36.0"),
+        CLIStatus(
+            "claude-code", "claude", "/usr/bin/claude", True, True,
+            "ANTHROPIC_API_KEY", False, AuthMethod.CLI_OAUTH, "2.1.91",
+        ),
+        CLIStatus(
+            "openai-codex", "codex", "/usr/bin/codex", True, True,
+            "OPENAI_API_KEY", False, AuthMethod.CLI_OAUTH, "0.118.0",
+        ),
+        CLIStatus(
+            "gemini-cli", "gemini", "/usr/bin/gemini", True, True,
+            "GEMINI_API_KEY", False, AuthMethod.CLI_OAUTH, "0.36.0",
+        ),
     ]
 
 

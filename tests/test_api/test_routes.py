@@ -1,11 +1,9 @@
 """Tests for api/routes.py — HTTP API endpoints via Starlette TestClient."""
 
-import json
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
 
-import pytest
-from starlette.testclient import TestClient
 from starlette.applications import Starlette
+from starlette.testclient import TestClient
 
 from llm_relay.api.routes import get_api_routes
 from llm_relay.orch.models import AuthMethod, CLIStatus
@@ -17,9 +15,18 @@ def _make_app():
 
 def _make_statuses():
     return [
-        CLIStatus("claude-code", "claude", "/usr/bin/claude", True, True, "ANTHROPIC_API_KEY", False, AuthMethod.CLI_OAUTH, "2.1.91"),
-        CLIStatus("openai-codex", "codex", "/usr/bin/codex", True, False, "OPENAI_API_KEY", True, AuthMethod.API_KEY, "0.118.0"),
-        CLIStatus("gemini-cli", "gemini", None, False, False, "GEMINI_API_KEY", False, AuthMethod.NONE),
+        CLIStatus(
+            "claude-code", "claude", "/usr/bin/claude", True, True,
+            "ANTHROPIC_API_KEY", False, AuthMethod.CLI_OAUTH, "2.1.91",
+        ),
+        CLIStatus(
+            "openai-codex", "codex", "/usr/bin/codex", True, False,
+            "OPENAI_API_KEY", True, AuthMethod.API_KEY, "0.118.0",
+        ),
+        CLIStatus(
+            "gemini-cli", "gemini", None, False, False,
+            "GEMINI_API_KEY", False, AuthMethod.NONE,
+        ),
     ]
 
 

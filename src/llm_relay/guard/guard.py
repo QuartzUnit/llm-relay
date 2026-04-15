@@ -9,7 +9,6 @@ Runs as an asyncio task inside the proxy's lifespan (no separate process).
 from __future__ import annotations
 
 import asyncio
-import json
 import logging
 import os
 import shutil
@@ -114,7 +113,7 @@ class Guard:
         for jsonl_path in base.rglob("*.jsonl"):
             # Check if this file contains the session ID
             try:
-                with open(jsonl_path, "r", encoding="utf-8") as f:
+                with open(jsonl_path, encoding="utf-8") as f:
                     first_line = f.readline()
                     if session_id in first_line:
                         # Found it — checkpoint

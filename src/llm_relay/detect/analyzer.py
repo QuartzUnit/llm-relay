@@ -4,8 +4,7 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 
-from llm_relay.detect import __version__
-from llm_relay.detect import get_all_detectors, get_detectors_for_provider
+from llm_relay.detect import __version__, get_detectors_for_provider
 from llm_relay.detect.models import Finding, FullReport, FeatureFlagsConfig, ParsedSession, SessionReport, Severity
 
 

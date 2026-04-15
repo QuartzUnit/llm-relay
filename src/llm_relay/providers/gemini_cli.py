@@ -8,8 +8,8 @@ from pathlib import Path
 from typing import Any
 
 from llm_relay.detect.models import Entry, ParsedSession, UsageData
-from llm_relay.providers.base import ProviderAdapter
 from llm_relay.detect.scanner import SessionFile
+from llm_relay.providers.base import ProviderAdapter
 
 
 def _find_gemini_home() -> Path:

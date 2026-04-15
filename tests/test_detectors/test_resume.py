@@ -7,8 +7,8 @@ from pathlib import Path
 
 from helpers import make_entry, write_session_file
 
-from llm_relay.detect.resume import ResumeDetector
 from llm_relay.detect.parser import parse_session
+from llm_relay.detect.resume import ResumeDetector
 
 
 class TestResumeDetector:

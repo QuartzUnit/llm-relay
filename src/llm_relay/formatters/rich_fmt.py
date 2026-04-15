@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from llm_relay.formatters.base import BaseFormatter
 from llm_relay.detect.models import FullReport, Health, Severity
+from llm_relay.formatters.base import BaseFormatter
 
 if TYPE_CHECKING:
     pass

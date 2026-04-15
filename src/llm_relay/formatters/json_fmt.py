@@ -5,8 +5,8 @@ from __future__ import annotations
 import json
 from typing import Any
 
-from llm_relay.formatters.base import BaseFormatter
 from llm_relay.detect.models import Finding, FullReport, SessionReport
+from llm_relay.formatters.base import BaseFormatter
 
 
 def _finding_to_dict(f: Finding) -> dict[str, Any]:

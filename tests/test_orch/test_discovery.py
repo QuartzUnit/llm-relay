@@ -1,7 +1,7 @@
 """Tests for orch/discovery.py — CLI detection and auth probing."""
 
 import os
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -14,7 +14,7 @@ from llm_relay.orch.discovery import (
     get_available,
     refresh,
 )
-from llm_relay.orch.models import AuthMethod
+from llm_relay.orch.models import AuthMethod, CLIStatus
 
 
 @pytest.fixture(autouse=True)
@@ -74,10 +74,11 @@ class TestProbes:
         claude_dir = tmp_path / ".claude"
         projects_dir = claude_dir / "projects"
         projects_dir.mkdir(parents=True)
-        with patch("llm_relay.orch.discovery.os.path.isdir", side_effect=lambda p: os.path.isdir(p) if str(tmp_path) not in p else True):
-            with patch("llm_relay.orch.discovery.os.path.expanduser", side_effect=lambda p: str(tmp_path / p.lstrip("~/"))) if False else patch("llm_relay.orch.discovery.os.path.isdir") as mock_isdir:
-                mock_isdir.return_value = True
-                assert _probe_claude("/usr/bin/claude") is True
+        with patch(
+            "llm_relay.orch.discovery.os.path.isdir",
+        ) as mock_isdir:
+            mock_isdir.return_value = True
+            assert _probe_claude("/usr/bin/claude") is True
 
     def test_probe_codex_no_file(self):
         with patch("llm_relay.orch.discovery.os.path.isfile", return_value=False):
@@ -88,7 +89,15 @@ class TestProbes:
         auth_file.write_text('{"access_token": "test_token_long_enough"}')
         with patch("llm_relay.orch.discovery.os.path.expanduser", return_value=str(auth_file)):
             with patch("llm_relay.orch.discovery.os.path.isfile", return_value=True):
-                with patch("builtins.open", MagicMock(return_value=MagicMock(__enter__=MagicMock(return_value=MagicMock(read=MagicMock(return_value='{"access_token":"long_token_here"}'))), __exit__=MagicMock(return_value=False)))):
+                mock_file = MagicMock(
+                    __enter__=MagicMock(return_value=MagicMock(
+                        read=MagicMock(
+                            return_value='{"access_token":"long_token_here"}',
+                        ),
+                    )),
+                    __exit__=MagicMock(return_value=False),
+                )
+                with patch("builtins.open", MagicMock(return_value=mock_file)):
                     assert _probe_codex("/usr/bin/codex") is True
 
     def test_probe_gemini_no_file(self):
@@ -155,6 +164,3 @@ class TestGetAvailable:
         assert len(result) == 1  # Only installed ones
         assert result[0].cli_id == "a"
 
-
-# Import CLIStatus for test fixtures
-from llm_relay.orch.models import CLIStatus

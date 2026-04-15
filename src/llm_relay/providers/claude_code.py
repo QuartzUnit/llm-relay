@@ -6,8 +6,8 @@ from pathlib import Path
 
 from llm_relay.detect.models import ParsedSession
 from llm_relay.detect.parser import parse_session
-from llm_relay.providers.base import ProviderAdapter
 from llm_relay.detect.scanner import SessionFile, discover_sessions, find_projects_dir
+from llm_relay.providers.base import ProviderAdapter
 
 
 class ClaudeCodeProvider(ProviderAdapter):

@@ -105,7 +105,7 @@ def check_claude_json_corruption() -> HealthResult:
     if b"\x00" in raw:
         return HealthResult(
             "claude-json-corruption", "issue",
-            f"Null bytes found in .claude.json ({raw.count(b'\x00')} occurrences)",
+            "Null bytes found in .claude.json ({} occurrences)".format(raw.count(b'\x00')),
             recommendation="Restore from backup: ~/.claude.json.bak",
             fixable=True,
         )
@@ -137,7 +137,7 @@ def check_corrupted_tool_use() -> HealthResult:
     for path in candidates:
         checked += 1
         try:
-            with open(path, "r", encoding="utf-8") as f:
+            with open(path, encoding="utf-8") as f:
                 for line in f:
                     line = line.strip()
                     if not line:
@@ -184,7 +184,7 @@ def check_orphaned_tool_results() -> HealthResult:
     results: set[str] = set()
 
     try:
-        with open(path, "r", encoding="utf-8") as f:
+        with open(path, encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
                 if not line:

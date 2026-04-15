@@ -32,7 +32,7 @@ class FileSnapshot:
     content_hash: str  # MD5 of full content at snapshot time
 
     @classmethod
-    def take(cls, path: Path) -> "FileSnapshot":
+    def take(cls, path: Path) -> FileSnapshot:
         """Snapshot a file's current state."""
         stat = path.stat()
         data = path.read_bytes()

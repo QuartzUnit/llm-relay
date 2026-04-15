@@ -8,7 +8,6 @@ and billing/timing metadata that Claude never reads.
 from __future__ import annotations
 
 import json
-from collections import defaultdict
 
 from llm_relay.strategies import Message, PruneAction, StrategyResult, strategy
 

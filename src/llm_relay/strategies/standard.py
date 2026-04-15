@@ -7,8 +7,8 @@ tool results, and duplicate system reminders.
 
 from __future__ import annotations
 
-import json
 import hashlib
+import json
 from collections import defaultdict
 
 from llm_relay.strategies import Message, PruneAction, StrategyResult, strategy

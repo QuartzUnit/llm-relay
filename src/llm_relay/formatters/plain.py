@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from llm_relay.formatters.base import BaseFormatter
 from llm_relay.detect.models import FullReport, Health, SessionReport, Severity
+from llm_relay.formatters.base import BaseFormatter
 
 
 def _severity_prefix(s: Severity) -> str:

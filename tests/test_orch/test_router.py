@@ -1,8 +1,6 @@
 """Tests for orch/router.py — request routing."""
 
-from unittest.mock import patch, MagicMock
-
-import pytest
+from unittest.mock import MagicMock, patch
 
 from llm_relay.orch.models import (
     AuthMethod,
